@@ -10,6 +10,7 @@ Maternal Observation for Preeclampsia Threats, Health Evaluation, and Risk Scree
 
 ## Tampilan Database
 ![Screenshot (1326)](https://github.com/GoofyzHealth/MOTHERS-Maternal-Observation-for-Preeclampsia-Threats-Health-Evaluation-and-Risk-Screening/assets/129243293/86314378-dc9c-49fa-99eb-14b3c7103cab)
+Data yang ditampilkan merupakan data dummy bukan data sebenarnya hanya untuk pengetesan sistem database!!!
 
 ## Tampilan Sidebar
 ![Screenshot (1328)](https://github.com/GoofyzHealth/MOTHERS-Maternal-Observation-for-Preeclampsia-Threats-Health-Evaluation-and-Risk-Screening/assets/129243293/73b2f5a5-acd9-4dd5-8ef9-eb0638cc596c)
