@@ -1,1 +1,3 @@
-# MOTHERS-Maternal-Observation-for-Preeclampsia-Threats-Health-Evaluation-and-Risk-Screening
+# MOTHERS
+
+Maternal Observation for Preeclampsia Threats, Health Evaluation, and Risk Screening (M.O.T.H.E.R.S.) adalah sistem deteksi dini yang dirancang untuk memantau dan mengevaluasi kesehatan ibu hamil serta menyaring risiko preeklamsia. Sistem ini menggunakan metode kecerdasan buatan (AI) berdasarkan hasil pemeriksaan kesehatan ibu yang dilakukan untuk mendeteksi risiko awal preeklamsia sehingga langkah intervensi dapat dilakukan sejak dini untuk meningkatkan kesehatan ibu dan bayi yang dikandungnya. Dengan fokus pada peran penting ibu sebagai pilar utama dalam kehamilan, M.O.T.H.E.R.S. bertujuan untuk meningkatkan pemantauan dan penanganan preeklamsia secara dini guna meminimalkan risiko komplikasi serius bagi ibu dan janinnya.
