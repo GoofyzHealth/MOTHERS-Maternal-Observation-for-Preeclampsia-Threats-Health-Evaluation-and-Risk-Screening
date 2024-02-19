@@ -5,5 +5,6 @@ streamlit_option_menu==0.3.6
 datetime
 plotly
 st-gsheets-connection
+st_on_hover_tabs
 scikit-learn
 pip==23.3.1
