@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Created on Sat Dec  2 08:31:44 2023
+Created on Mon Feb  19 08:31:44 2024
 
 @author: Taufik Sahid Halim (202110101058) FKM UNEJ Biostatistika dan Kependudukan
 """
