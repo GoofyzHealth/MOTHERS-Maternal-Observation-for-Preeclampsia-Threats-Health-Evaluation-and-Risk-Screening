@@ -10,7 +10,6 @@ import pandas as pd
 import numpy as np
 import calendar
 import base64
-import st_on_hover_tabs
 from st_on_hover_tabs import on_hover_tabs
 import streamlit as st
 import plotly.express as px
