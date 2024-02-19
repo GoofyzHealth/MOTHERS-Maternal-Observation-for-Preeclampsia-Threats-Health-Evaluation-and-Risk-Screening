@@ -9,6 +9,7 @@ Created on Mon Feb  19 08:31:44 2024
 import pandas as pd
 import numpy as np
 import calendar
+import base64
 import streamlit as st
 import plotly.express as px
 import plotly.graph_objects as go
