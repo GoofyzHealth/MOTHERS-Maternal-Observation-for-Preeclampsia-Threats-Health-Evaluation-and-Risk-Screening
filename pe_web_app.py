@@ -50,7 +50,7 @@ existing_data['Pernah mengalami preeklamsia ?'] = existing_data['Pernah mengalam
 
 
 # Load save model yang telah dibuat sebelumnya
-df = pd.read_csv('F:/Bismillah Skripsi/Dataset/dataset_ibu_hamil.csv')
+df = pd.read_csv('dataset_ibu_hamil.csv')
 df['level_risiko'].replace({"Tinggi": "3", "Sedang": "2", "Tidak Berisiko" : "1"}, inplace=True)
 df["level_risiko"] = df["level_risiko"].astype("int64")
 
@@ -124,7 +124,7 @@ def preeklamsia_risk_level(input_data):
 
 
 # Navigasi sidebar
-st.markdown('<style>' + open('F:/Bismillah Skripsi/Dataset/style.css').read() + '<style>', 
+st.markdown('<style>' + open('style.css').read() + '<style>', 
             unsafe_allow_html=True) 
 
 with st.sidebar:
@@ -148,7 +148,7 @@ with st.sidebar:
                                                      'padding-left': '30px'}},
                              key="1")
 
-with open("F:/Bismillah Skripsi/Dataset/logo.png", "rb") as img_file:
+with open("logo.png", "rb") as img_file:
     img_byte = img_file.read()
 
 # Mengubah byte menjadi base64 string
@@ -169,6 +169,51 @@ if tabs == 'Dashboard':
     
     # Judul Halaman
     st.markdown('<h1 style="color:#6431F7;">Dashboard Deteksi Dini Preeklamsia</h1>', unsafe_allow_html=True)
+    #def get_latest_year():
+    def get_latest_year():
+        return existing_data['Tahun Pengukuran'].max()
+
+    def main():
+        # Mendapatkan tahun terbaru
+        tahun_terbaru = get_latest_year()
+        tahun_sebelumnya = str(int(tahun_terbaru) - 1)  # Konversi ke integer lalu kembali ke string
+
+        # Filter data untuk tahun terbaru dan tahun sebelumnya
+        db_data_tahun_terbaru = existing_data[existing_data['Tahun Pengukuran'] == tahun_terbaru]
+        db_data_tahun_sebelumnya = existing_data[existing_data['Tahun Pengukuran'] == tahun_sebelumnya]
+
+        # Menghitung jumlah data risiko preeklamsia yang masuk untuk tahun terbaru dan tahun sebelumnya
+        total_masuk_tahun_terbaru = db_data_tahun_terbaru.shape[0]
+        total_masuk_tahun_sebelumnya = db_data_tahun_sebelumnya.shape[0]
+
+        # Mendapatkan perbandingan antara total data risiko preeklamsia tahun terbaru dan tahun sebelumnya
+        perbandingan_total_masuk = total_masuk_tahun_terbaru - total_masuk_tahun_sebelumnya
+
+        # Menghitung jumlah data untuk setiap tingkat risiko preeklamsia
+        tidak_berisiko_tahun_terbaru = db_data_tahun_terbaru[db_data_tahun_terbaru['Risiko Preeklamsia'] == 'Tidak Berisiko'].shape[0]
+        tidak_berisiko_tahun_sebelumnya = db_data_tahun_sebelumnya[db_data_tahun_sebelumnya['Risiko Preeklamsia'] == 'Tidak Berisiko'].shape[0]
+
+        sedang_tahun_terbaru = db_data_tahun_terbaru[db_data_tahun_terbaru['Risiko Preeklamsia'] == 'Sedang'].shape[0]
+        sedang_tahun_sebelumnya = db_data_tahun_sebelumnya[db_data_tahun_sebelumnya['Risiko Preeklamsia'] == 'Sedang'].shape[0]
+
+        tinggi_tahun_terbaru = db_data_tahun_terbaru[db_data_tahun_terbaru['Risiko Preeklamsia'] == 'Tinggi'].shape[0]
+        tinggi_tahun_sebelumnya = db_data_tahun_sebelumnya[db_data_tahun_sebelumnya['Risiko Preeklamsia'] == 'Tinggi'].shape[0]
+
+        # Row A
+        st.markdown('### Metrik dibandingkan tahun sebelumnya')
+        col1, col2, col3, col4 = st.columns(4)
+        
+        # Menambahkan informasi tentang data risiko preeklamsia pada kolom pertama
+        col1.metric("Data Masuk", f"{total_masuk_tahun_terbaru}", f"{perbandingan_total_masuk} Ibu Hamil")
+        
+        # Menambahkan informasi tentang tingkat risiko preeklamsia pada kolom kedua hingga keempat
+        col2.metric("Tidak Berisiko", f"{tidak_berisiko_tahun_terbaru}", f"{tidak_berisiko_tahun_terbaru - tidak_berisiko_tahun_sebelumnya} Ibu Hamil")
+        col3.metric("Sedang", f"{sedang_tahun_terbaru}", f"{sedang_tahun_terbaru - sedang_tahun_sebelumnya} Ibu Hamil")
+        col4.metric("Tinggi", f"{tinggi_tahun_terbaru}", f"{tinggi_tahun_terbaru - tinggi_tahun_sebelumnya} Ibu Hamil")
+    
+    if __name__ == "__main__":
+        main()
+
     def load_data():
        return existing_data
 
@@ -225,10 +270,7 @@ if tabs == 'Dashboard':
 
     # Menampilkan diagram menggunakan Streamlit
     st.plotly_chart(fig, use_container_width=True)  # Menggunakan use_container_width=True untuk menyesuaikan lebar dengan container
-        
-    
-    
-    
+
     
     #Subheader 2
     st.subheader('Visualisasi Data')
@@ -311,57 +353,11 @@ if tabs == 'Dashboard':
         fig.update_layout(title="Jumlah Berdasarkan Risiko")
 
         st.plotly_chart(fig, theme="streamlit")
-    
-    
-    
 
-    
-    
-    
-    
-        
 
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+
+
+
 # Halaman klasifikasi level risiko
 if tabs == 'Deteksi Dini':
     
