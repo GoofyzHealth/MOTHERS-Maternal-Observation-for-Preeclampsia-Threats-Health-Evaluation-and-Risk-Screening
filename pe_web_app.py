@@ -69,9 +69,9 @@ Y = df['level_risiko']
 
 # Buat model
 from sklearn.model_selection import train_test_split
-X_train, X_test, Y_train, Y_test = train_test_split(X, Y, test_size = 0.2, stratify=Y, random_state=2)
+X_train, X_test, Y_train, Y_test = train_test_split(X, Y, test_size = 0.2, random_state=42, stratify=Y)
 
-forest = RandomForestClassifier(criterion='entropy', max_depth=20, n_estimators=100, min_samples_leaf=1, min_samples_split=2)
+forest = RandomForestClassifier(criterion='gini', max_depth=20, n_estimators=200, min_samples_leaf=1, min_samples_split=2)
 forest.fit(X_train, Y_train)
 
 # Membuat data tahun, bulan dan puskesmas
