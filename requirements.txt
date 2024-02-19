@@ -2,5 +2,9 @@ pandas==1.4.2
 numpy==1.21.5
 streamlit==1.29.0
 streamlit_option_menu==0.3.6
+datetime
+base64
+ploty
+st-gsheets-connection
 scikit-learn
 pip==23.3.1
