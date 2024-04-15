@@ -554,13 +554,14 @@ if tabs == 'Database':
         # Apply background color based on risk
         st.dataframe(filtered_data.style.applymap(warna_risiko, subset=['Risiko Preeklamsia']))
     elif st.session_state["authentication_status"] is False:
-        st.error('Username/password is incorrect')
+        st.error('Username atau password salah.')
     elif st.session_state["authentication_status"] is None:
-        st.warning('Please enter your username and password')
+        st.warning('Mohon masukkan username dan password anda.')
 
 """
 CREDIT :
 
-github : https://github.com/GoofyzHealth/MOTHERS-Maternal-Observation-for-Preeclampsia-Threats-Health-Evaluation-and-Risk-Screening
 author: Taufik Sahid Halim (202110101058) FKM UNEJ Biostatistika dan Kependudukan
+github : https://github.com/GoofyzHealth/MOTHERS-Maternal-Observation-for-Preeclampsia-Threats-Health-Evaluation-and-Risk-Screening
+
 """
