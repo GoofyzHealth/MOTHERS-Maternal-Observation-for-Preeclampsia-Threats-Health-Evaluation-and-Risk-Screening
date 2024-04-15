@@ -358,6 +358,15 @@ if tabs == 'Dashboard':
 
         st.plotly_chart(fig, theme="streamlit")
        
+    """
+    CREDIT :
+
+    author: Taufik Sahid Halim (202110101058), Public Health, Majoring in Biostatistics and Population, Faculty of Public Health, University of Jember
+
+
+    github : https://github.com/GoofyzHealth/MOTHERS-Maternal-Observation-for-Preeclampsia-Threats-Health-Evaluation-and-Risk-Screening
+
+    """
 
 
 
@@ -549,16 +558,7 @@ if tabs == 'Database':
             filtered_data = filtered_data[filtered_data['Tahun Pengukuran'] == tahun_filter]  # Perbaikan di sini
         if risiko_filter != 'Semua':
             filtered_data = filtered_data[filtered_data['Risiko Preeklamsia'] == risiko_filter]
-        """
-        CREDIT :
-
-        author: Taufik Sahid Halim (202110101058), Public Health, Majoring in Biostatistics and Population, Faculty of Public Health, University of Jember
-
-
-        github : https://github.com/GoofyzHealth/MOTHERS-Maternal-Observation-for-Preeclampsia-Threats-Health-Evaluation-and-Risk-Screening
-
-        """
-
+        
         # Apply background color based on risk
         st.dataframe(filtered_data.style.applymap(warna_risiko, subset=['Risiko Preeklamsia']))
          
