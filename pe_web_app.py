@@ -9,15 +9,18 @@ Created on Mon Feb  19 08:31:44 2024
 import pandas as pd
 import numpy as np
 import calendar
-import base64
-from st_on_hover_tabs import on_hover_tabs
 import streamlit as st
+import base64
 import plotly.express as px
 import plotly.graph_objects as go
 from datetime import datetime
 from streamlit_gsheets import GSheetsConnection
+import pickle
+from st_on_hover_tabs import on_hover_tabs
 from sklearn.preprocessing import StandardScaler
-from sklearn.ensemble import RandomForestClassifier 
+import streamlit_authenticator as stauth
+import yaml
+from yaml.loader import SafeLoader
 st.set_page_config(layout="wide")
 
 # Library untuk mengabaikan warnings
@@ -480,60 +483,85 @@ if tabs == 'Deteksi Dini':
     
 
 # Halaman database    
-if  tabs == 'Database':
-    
-    # Judul Halaman
-    st.markdown('<h1 style="color:#6431F7;">Database Hasil Skrining Preeklamsia</h1>', unsafe_allow_html=True)
-    tahun_filter_options = ['Semua'] + sorted(existing_data['Tahun Pengukuran'].unique())
-    bulan_filter_options = ['Semua'] + sorted(existing_data['Bulan Pengukuran'].unique())
-    risiko_filter_options = ['Semua'] + sorted(existing_data['Risiko Preeklamsia'].unique())
-    puskesmas_filter_options = ['Semua'] + sorted(existing_data['Wilayah Puskesmas'].unique())
-    
-    
-    def warna_risiko(risiko_pe):
-        if risiko_pe == 'Tinggi':
-            color = 'rgba(255, 0, 0, 0.3)'
-        elif risiko_pe == 'Sedang':
-            color = 'rgba(255, 255, 0, 0.3)'
+# Fungsi untuk menetapkan status autentikasi
+def set_authenticated(authenticated):
+    st.session_state.authenticated = authenticated
+
+# Fungsi untuk mendapatkan status autentikasi
+def get_authenticated():
+    return st.session_state.get("authenticated", False)
+
+if tabs == 'Database':
+    authenticated = get_authenticated()
+    if not authenticated:  # Jika belum diautentikasi, tampilkan formulir otentikasi
+        with open('F:/Bismillah Skripsi/Dataset/config.yaml') as file:
+            config = yaml.load(file, Loader=SafeLoader)
+
+        authenticator = stauth.Authenticate(
+            config['credentials'],
+            config['cookie']['name'],
+            config['cookie']['key'],
+            config['cookie']['expiry_days'],
+            config['pre-authorized']
+        )   
+
+        if authenticator.login():
+            authenticated = True  # Set nilai authenticated menjadi True setelah autentikasi berhasil
+            set_authenticated(authenticated)
         else:
-            color = 'rgba(0, 128, 0, 0.3)'
-        return f'background-color: {color}'
-
-
-    col1, col2, col3, col4 = st.columns(4)
-    
-    with col1:
-        puskesmas_filter = st.selectbox('Filter Puskesmas', puskesmas_filter_options)
+            st.write("Authentication failed. Please check your credentials.")
+    else:  # Jika sudah diautentikasi, tampilkan halaman database
+        # Bagian menu database
+        # Judul Halaman
+        st.markdown('<h1 style="color:#6431F7;">Database Hasil Skrining Preeklamsia</h1>', unsafe_allow_html=True)
+        tahun_filter_options = ['Semua'] + sorted(existing_data['Tahun Pengukuran'].unique())
+        bulan_filter_options = ['Semua'] + sorted(existing_data['Bulan Pengukuran'].unique())
+        risiko_filter_options = ['Semua'] + sorted(existing_data['Risiko Preeklamsia'].unique())
+        puskesmas_filter_options = ['Semua'] + sorted(existing_data['Wilayah Puskesmas'].unique())
         
-    with col2:
-        bulan_filter = st.selectbox('Filter Bulan', bulan_filter_options, key="bulan_filter")
+        def warna_risiko(risiko_pe):
+            if risiko_pe == 'Tinggi':
+                color = 'rgba(255, 0, 0, 0.3)'
+            elif risiko_pe == 'Sedang':
+                color = 'rgba(255, 255, 0, 0.3)'
+            else:
+                color = 'rgba(0, 128, 0, 0.3)'
+            return f'background-color: {color}'
         
-    with col3:
-        tahun_filter = st.selectbox('Filter Tahun', tahun_filter_options, key="tahun_filter_2022")
-    
-    with col4:
-        risiko_filter = st.selectbox('Filter Risiko Preeklamsia', risiko_filter_options)
-    
-    # Tombol reset filter
-    if st.button('Reset Filter'):
-        puskesmas_filter = 'Semua'
-        bulan_filter = 'Semua'
-        tahun_filter = 'Semua'
-        risiko_filter = 'Semua'
-    
-    # Filter data berdasarkan pilihan pengguna
-    filtered_data = existing_data.copy()  # Copy existing_data untuk mencegah perubahan di tempat
-    if puskesmas_filter != 'Semua':
-        filtered_data = filtered_data[filtered_data['Wilayah Puskesmas'] == puskesmas_filter]
-    if bulan_filter != 'Semua':
-        filtered_data = filtered_data[filtered_data['Bulan Pengukuran'] == bulan_filter]
-    if tahun_filter != 'Semua':
-        filtered_data = filtered_data[filtered_data['Tahun Pengukuran'] == tahun_filter]  # Perbaikan di sini
-    if risiko_filter != 'Semua':
-        filtered_data = filtered_data[filtered_data['Risiko Preeklamsia'] == risiko_filter]
+        col1, col2, col3, col4 = st.columns(4)
+        
+        with col1:
+            puskesmas_filter = st.selectbox('Filter Puskesmas', puskesmas_filter_options)
+            
+        with col2:
+            bulan_filter = st.selectbox('Filter Bulan', bulan_filter_options, key="bulan_filter")
+            
+        with col3:
+            tahun_filter = st.selectbox('Filter Tahun', tahun_filter_options, key="tahun_filter_2022")
+        
+        with col4:
+            risiko_filter = st.selectbox('Filter Risiko Preeklamsia', risiko_filter_options)
+        
+        # Tombol reset filter
+        if st.button('Reset Filter'):
+            puskesmas_filter = 'Semua'
+            bulan_filter = 'Semua'
+            tahun_filter = 'Semua'
+            risiko_filter = 'Semua'
+        
+        # Filter data berdasarkan pilihan pengguna
+        filtered_data = existing_data.copy()  # Copy existing_data untuk mencegah perubahan di tempat
+        if puskesmas_filter != 'Semua':
+            filtered_data = filtered_data[filtered_data['Wilayah Puskesmas'] == puskesmas_filter]
+        if bulan_filter != 'Semua':
+            filtered_data = filtered_data[filtered_data['Bulan Pengukuran'] == bulan_filter]
+        if tahun_filter != 'Semua':
+            filtered_data = filtered_data[filtered_data['Tahun Pengukuran'] == tahun_filter]  # Perbaikan di sini
+        if risiko_filter != 'Semua':
+            filtered_data = filtered_data[filtered_data['Risiko Preeklamsia'] == risiko_filter]
 
-    # Apply background color based on risk
-    st.dataframe(filtered_data.style.applymap(warna_risiko, subset=['Risiko Preeklamsia']))
+        # Apply background color based on risk
+        st.dataframe(filtered_data.style.applymap(warna_risiko, subset=['Risiko Preeklamsia']))
     
 
     
