@@ -503,8 +503,14 @@ if tabs == 'Database':
         config['cookie']['expiry_days'],
         config['pre-authorized']
     )
-    
-    authenticator.login()
+
+    custom_fields = {
+    'Form name': 'Login Database ',
+    'Username': 'Username',
+    'Password': 'Password',
+    'Login': 'Log In'  
+    }
+    authenticator.login(fields=custom_fields)
     
     if st.session_state["authentication_status"]:
         authenticator.logout()
