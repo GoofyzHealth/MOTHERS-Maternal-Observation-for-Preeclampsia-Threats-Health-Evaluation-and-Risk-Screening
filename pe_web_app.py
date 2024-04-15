@@ -53,7 +53,7 @@ existing_data['Pernah mengalami preeklamsia ?'] = existing_data['Pernah mengalam
 
 
 # Load save model yang telah dibuat sebelumnya
-df = pd.read_csv('dataset_ibu_hamil.csv')
+df = pd.read_csv('resources/dataset_ibu_hamil.csv')
 df['level_risiko'].replace({"Tinggi": "3", "Sedang": "2", "Tidak Berisiko" : "1"}, inplace=True)
 df["level_risiko"] = df["level_risiko"].astype("int64")
 
@@ -151,7 +151,7 @@ with st.sidebar:
                                                      'padding-left': '30px'}},
                              key="1")
 
-with open("logo.png", "rb") as img_file:
+with open("resources/logo.png", "rb") as img_file:
     img_byte = img_file.read()
 
 # Mengubah byte menjadi base64 string
@@ -483,41 +483,30 @@ if tabs == 'Deteksi Dini':
     
 
 # Halaman database    
-# Fungsi untuk menetapkan status autentikasi
-def set_authenticated(authenticated):
-    st.session_state.authenticated = authenticated
-
-# Fungsi untuk mendapatkan status autentikasi
-def get_authenticated():
-    return st.session_state.get("authenticated", False)
-
 if tabs == 'Database':
-    authenticated = get_authenticated()
-    if not authenticated:  # Jika belum diautentikasi, tampilkan formulir otentikasi
-        with open('config.yaml') as file:
-            config = yaml.load(file, Loader=SafeLoader)
+    with open('config/config.yaml') as file:
+        config = yaml.load(file, Loader=SafeLoader)
 
-        authenticator = stauth.Authenticate(
-            config['credentials'],
-            config['cookie']['name'],
-            config['cookie']['key'],
-            config['cookie']['expiry_days'],
-            config['pre-authorized']
-        )   
-
-        if authenticator.login():
-            authenticated = True  # Set nilai authenticated menjadi True setelah autentikasi berhasil
-            set_authenticated(authenticated)
-        else:
-            st.write("Authentication failed. Please check your credentials.")
-    else:  # Jika sudah diautentikasi, tampilkan halaman database
-        # Bagian menu database
+    authenticator = stauth.Authenticate(
+        config['credentials'],
+        config['cookie']['name'],
+        config['cookie']['key'],
+        config['cookie']['expiry_days'],
+        config['pre-authorized']
+    )
+    
+    authenticator.login()
+    
+    if st.session_state["authentication_status"]:
+        authenticator.logout()
+        st.markdown(f'<h2><span style="font-size: px;">Halo,</span> <strong>{st.session_state["name"]}</strong></h2>', unsafe_allow_html=True)
         # Judul Halaman
         st.markdown('<h1 style="color:#6431F7;">Database Hasil Skrining Preeklamsia</h1>', unsafe_allow_html=True)
         tahun_filter_options = ['Semua'] + sorted(existing_data['Tahun Pengukuran'].unique())
         bulan_filter_options = ['Semua'] + sorted(existing_data['Bulan Pengukuran'].unique())
         risiko_filter_options = ['Semua'] + sorted(existing_data['Risiko Preeklamsia'].unique())
         puskesmas_filter_options = ['Semua'] + sorted(existing_data['Wilayah Puskesmas'].unique())
+        
         
         def warna_risiko(risiko_pe):
             if risiko_pe == 'Tinggi':
@@ -528,6 +517,7 @@ if tabs == 'Database':
                 color = 'rgba(0, 128, 0, 0.3)'
             return f'background-color: {color}'
         
+
         col1, col2, col3, col4 = st.columns(4)
         
         with col1:
@@ -562,7 +552,13 @@ if tabs == 'Database':
 
         # Apply background color based on risk
         st.dataframe(filtered_data.style.applymap(warna_risiko, subset=['Risiko Preeklamsia']))
-    
+    elif st.session_state["authentication_status"] is False:
+        st.error('Username/password is incorrect')
+    elif st.session_state["authentication_status"] is None:
+        st.warning('Please enter your username and password')
 
-    
-    
+"""
+Created on Mon Feb  19 08:31:44 2024
+
+@author: Taufik Sahid Halim (202110101058) FKM UNEJ Biostatistika dan Kependudukan
+"""
