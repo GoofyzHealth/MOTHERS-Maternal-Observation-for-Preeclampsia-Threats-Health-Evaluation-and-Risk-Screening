@@ -357,16 +357,7 @@ if tabs == 'Dashboard':
         fig.update_layout(title="Jumlah Berdasarkan Risiko")
 
         st.plotly_chart(fig, theme="streamlit")
-        """
-        CREDIT :
-
-        author: Taufik Sahid Halim (202110101058), Public Health, Majoring in Biostatistics and Population, Faculty of Public Health, University of Jember
-
-
-        github : https://github.com/GoofyzHealth/MOTHERS-Maternal-Observation-for-Preeclampsia-Threats-Health-Evaluation-and-Risk-Screening
-
-        """
-
+       
 
 
 
@@ -561,6 +552,15 @@ if tabs == 'Database':
 
         # Apply background color based on risk
         st.dataframe(filtered_data.style.applymap(warna_risiko, subset=['Risiko Preeklamsia']))
+         """
+        CREDIT :
+
+        author: Taufik Sahid Halim (202110101058), Public Health, Majoring in Biostatistics and Population, Faculty of Public Health, University of Jember
+
+
+        github : https://github.com/GoofyzHealth/MOTHERS-Maternal-Observation-for-Preeclampsia-Threats-Health-Evaluation-and-Risk-Screening
+
+        """
     elif st.session_state["authentication_status"] is False:
         st.error('Username atau password salah.')
     elif st.session_state["authentication_status"] is None:
