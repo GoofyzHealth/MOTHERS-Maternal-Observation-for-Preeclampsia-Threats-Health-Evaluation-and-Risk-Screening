@@ -549,10 +549,7 @@ if tabs == 'Database':
             filtered_data = filtered_data[filtered_data['Tahun Pengukuran'] == tahun_filter]  # Perbaikan di sini
         if risiko_filter != 'Semua':
             filtered_data = filtered_data[filtered_data['Risiko Preeklamsia'] == risiko_filter]
-
-        # Apply background color based on risk
-        st.dataframe(filtered_data.style.applymap(warna_risiko, subset=['Risiko Preeklamsia']))
-         """
+        """
         CREDIT :
 
         author: Taufik Sahid Halim (202110101058), Public Health, Majoring in Biostatistics and Population, Faculty of Public Health, University of Jember
@@ -561,6 +558,10 @@ if tabs == 'Database':
         github : https://github.com/GoofyzHealth/MOTHERS-Maternal-Observation-for-Preeclampsia-Threats-Health-Evaluation-and-Risk-Screening
 
         """
+
+        # Apply background color based on risk
+        st.dataframe(filtered_data.style.applymap(warna_risiko, subset=['Risiko Preeklamsia']))
+         
     elif st.session_state["authentication_status"] is False:
         st.error('Username atau password salah.')
     elif st.session_state["authentication_status"] is None:
