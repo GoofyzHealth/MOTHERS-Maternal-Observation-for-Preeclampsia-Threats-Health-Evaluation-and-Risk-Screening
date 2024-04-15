@@ -357,7 +357,15 @@ if tabs == 'Dashboard':
         fig.update_layout(title="Jumlah Berdasarkan Risiko")
 
         st.plotly_chart(fig, theme="streamlit")
+        """
+        CREDIT :
 
+        author: Taufik Sahid Halim (202110101058), Public Health, Majoring in Biostatistics and Population, Faculty of Public Health, University of Jember
+
+
+        github : https://github.com/GoofyzHealth/MOTHERS-Maternal-Observation-for-Preeclampsia-Threats-Health-Evaluation-and-Risk-Screening
+
+        """
 
 
 
@@ -557,13 +565,3 @@ if tabs == 'Database':
         st.error('Username atau password salah.')
     elif st.session_state["authentication_status"] is None:
         st.warning('Mohon masukkan username dan password anda.')
-
-"""
-CREDIT :
-
-author: Taufik Sahid Halim (202110101058), Public Health, Majoring in Biostatistics and Population, Faculty of Public Health, University of Jember
-
-
-github : https://github.com/GoofyzHealth/MOTHERS-Maternal-Observation-for-Preeclampsia-Threats-Health-Evaluation-and-Risk-Screening
-
-"""
