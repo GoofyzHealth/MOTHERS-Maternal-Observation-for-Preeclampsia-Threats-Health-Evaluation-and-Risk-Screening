@@ -494,7 +494,7 @@ def get_authenticated():
 if tabs == 'Database':
     authenticated = get_authenticated()
     if not authenticated:  # Jika belum diautentikasi, tampilkan formulir otentikasi
-        with open('F:/Bismillah Skripsi/Dataset/config.yaml') as file:
+        with open('config.yaml') as file:
             config = yaml.load(file, Loader=SafeLoader)
 
         authenticator = stauth.Authenticate(
