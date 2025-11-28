@@ -506,13 +506,27 @@ if tabs == 'Database':
     name, authentication_status, username = authenticator.login(location="main")
 
     if authentication_status:
-        col_hello, col_logout = st.columns([4, 1])
+        st.markdown("""
+            <style>
+            .logout-align {
+                margin-top: 15px;
+                text-align: right;
+        }
+        </style>
+        """, unsafe_allow_html=True)
+
+        col_hello, col_logout = st.columns([5, 1])
 
         with col_hello:
-            st.markdown(f'<h2>Halo, <strong>{name}</strong></h2>', unsafe_allow_html=True)
+            st.markdown(
+                f"<h2 style='margin-bottom:0;'>Halo, <strong>{name}</strong></h2>",
+                unsafe_allow_html=True
+            )
 
         with col_logout:
+            st.markdown("<div class='logout-align'>", unsafe_allow_html=True)
             authenticator.logout("Logout", "main")
+            st.markdown("</div>", unsafe_allow_html=True)
     
         # Judul Halaman
         st.markdown('<h1 style="color:#6431F7;">Database Hasil Skrining Preeklamsia</h1>', unsafe_allow_html=True)
@@ -572,6 +586,7 @@ if tabs == 'Database':
 
     elif authentication_status is None:
         st.warning("Mohon masukkan username dan password.")
+
 
 
 
