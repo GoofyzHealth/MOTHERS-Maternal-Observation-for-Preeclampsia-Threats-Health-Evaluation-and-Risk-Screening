@@ -490,8 +490,7 @@ if tabs == 'Deteksi Dini':
         
     
     
-
-# Halaman database    
+   
 # Halaman database    
 if tabs == 'Database':
     with open('config/config.yaml') as file:
@@ -513,13 +512,6 @@ if tabs == 'Database':
     if authentication_status:
         authenticator.logout("Logout", "sidebar")
         st.markdown(f'<h2>Halo, <strong>{name}</strong></h2>', unsafe_allow_html=True)
-
-    elif authentication_status is False:
-        st.error("Username atau password salah")
-
-    elif authentication_status is None:
-        st.warning("Silakan masukkan username dan password")
-
     
     if st.session_state["authentication_status"]:
         authenticator.logout()
@@ -581,4 +573,5 @@ if tabs == 'Database':
         st.error('Username atau password salah.')
     elif st.session_state["authentication_status"] is None:
         st.warning('Mohon masukkan username dan password anda.')
+
 
