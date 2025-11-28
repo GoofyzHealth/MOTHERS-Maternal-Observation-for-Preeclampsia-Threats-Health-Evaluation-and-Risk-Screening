@@ -503,10 +503,7 @@ if tabs == 'Database':
         config['cookie']['expiry_days']
     )
 
-    name, authentication_status, username = authenticator.login(
-        "Login Database",
-        location="main"
-    )
+    name, authentication_status, username = authenticator.login(location="main")
 
     if authentication_status:
         authenticator.logout("Logout", "sidebar")
@@ -570,6 +567,7 @@ if tabs == 'Database':
 
     elif authentication_status is None:
         st.warning("Mohon masukkan username dan password.")
+
 
 
 
