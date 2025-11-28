@@ -500,8 +500,7 @@ if tabs == 'Database':
         config['credentials'],
         config['cookie']['name'],
         config['cookie']['key'],
-        config['cookie']['expiry_days'],
-        config['pre-authorized']
+        config['cookie']['expiry_days']
     )
 
     name, authentication_status, username = authenticator.login(
@@ -571,6 +570,7 @@ if tabs == 'Database':
 
     elif authentication_status is None:
         st.warning("Mohon masukkan username dan password.")
+
 
 
 
