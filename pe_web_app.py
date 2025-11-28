@@ -513,9 +513,6 @@ if tabs == 'Database':
         authenticator.logout("Logout", "sidebar")
         st.markdown(f'<h2>Halo, <strong>{name}</strong></h2>', unsafe_allow_html=True)
     
-    if st.session_state["authentication_status"]:
-        authenticator.logout()
-        st.markdown(f'<h2><span style="font-size: px;">Halo,</span> <strong>{st.session_state["name"]}</strong></h2>', unsafe_allow_html=True)
         # Judul Halaman
         st.markdown('<h1 style="color:#6431F7;">Database Hasil Skrining Preeklamsia</h1>', unsafe_allow_html=True)
         tahun_filter_options = ['Semua'] + sorted(existing_data['Tahun Pengukuran'].unique())
@@ -569,10 +566,12 @@ if tabs == 'Database':
         # Apply background color based on risk
         st.dataframe(filtered_data.style.applymap(warna_risiko, subset=['Risiko Preeklamsia']))
          
-    elif st.session_state["authentication_status"] is False:
-        st.error('Username atau password salah.')
-    elif st.session_state["authentication_status"] is None:
-        st.warning('Mohon masukkan username dan password anda.')
+    elif authentication_status is False:
+        st.error("Username atau password salah.")
+
+    elif authentication_status is None:
+        st.warning("Mohon masukkan username dan password."
+
 
 
 
