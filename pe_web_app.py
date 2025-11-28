@@ -505,7 +505,7 @@ if tabs == 'Database':
 
     name, authentication_status, username = authenticator.login(
         "Login Database",
-        "main"
+        location="main"
     )
 
     if authentication_status:
@@ -570,6 +570,7 @@ if tabs == 'Database':
 
     elif authentication_status is None:
         st.warning("Mohon masukkan username dan password.")
+
 
 
 
